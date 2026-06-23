@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e12">
+  <meta name="description" content="An adaptive Batman knowledge diagnostic, study archive, and mastery platform.">
+  <title>The Batman Knowledge Engine</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/engine-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a class="skip-link" href="#app-main">Skip to main content</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="icon-button mobile-only" id="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false">☰</button>
+      <a class="brand" href="#/home" aria-label="Batman Knowledge Engine home">
+        <svg class="brand-mark" viewBox="0 0 64 32" role="img" aria-label="Abstract geometric night-wing mark">
+          <path d="M3 6l14 5 6-7 9 8 9-8 6 7 14-5-8 18-13-3-8 8-8-8-13 3z" fill="currentColor"/>
+        </svg>
+        <span><strong>BATMAN</strong><small>KNOWLEDGE ENGINE</small></span>
+      </a>
+      <div class="topbar-status" aria-label="Current assessment status">
+        <span id="top-level">Uninitiated</span>
+        <span class="status-divider" aria-hidden="true"></span>
+        <span id="top-confidence">Low confidence</span>
+      </div>
+      <button class="profile-chip" id="profile-menu-button" aria-haspopup="dialog" aria-controls="profile-dialog">
+        <span class="profile-avatar" id="profile-avatar">A</span>
+        <span id="profile-name">Local Profile</span>
+      </button>
+    </header>
+
+    <aside class="sidebar" id="primary-nav" aria-label="Primary navigation">
+      <nav>
+        <a href="#/home" data-route="home"><span aria-hidden="true">⌂</span> Home</a>
+        <a href="#/diagnostic" data-route="diagnostic"><span aria-hidden="true">◎</span> Diagnostic</a>
+        <a href="#/knowledge-map" data-route="knowledge-map"><span aria-hidden="true">◇</span> Knowledge Map</a>
+        <a href="#/challenges" data-route="challenges"><span aria-hidden="true">⚔</span> Challenge Modes</a>
+        <a href="#/study" data-route="study"><span aria-hidden="true">▤</span> Study Archive</a>
+        <a href="#/review" data-route="review"><span aria-hidden="true">↻</span> Question Review</a>
+        <a href="#/progress" data-route="progress"><span aria-hidden="true">▥</span> Progress</a>
+        <a href="#/settings" data-route="settings"><span aria-hidden="true">⚙</span> Settings</a>
+        <a href="#/about" data-route="about"><span aria-hidden="true">i</span> About the Test</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="coverage-meter">
+          <div class="label-row"><span>Assessment coverage</span><strong id="coverage-label">0%</strong></div>
+          <div class="meter"><span id="coverage-fill" style="width:0%"></span></div>
+        </div>
+        <button class="text-button" id="install-button" hidden>Install offline app</button>
+      </div>
+    </aside>
+
+    <main id="app-main" tabindex="-1">
+      <div id="route-view" aria-live="polite"></div>
+    </main>
+
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <a href="#/home" data-route="home"><span aria-hidden="true">⌂</span><small>Home</small></a>
+      <a href="#/diagnostic" data-route="diagnostic"><span aria-hidden="true">◎</span><small>Test</small></a>
+      <a href="#/knowledge-map" data-route="knowledge-map"><span aria-hidden="true">◇</span><small>Map</small></a>
+      <a href="#/challenges" data-route="challenges"><span aria-hidden="true">⚔</span><small>Modes</small></a>
+      <a href="#/study" data-route="study"><span aria-hidden="true">▤</span><small>Study</small></a>
+    </nav>
+  </div>
+
+  <dialog id="profile-dialog" class="modal">
+    <form method="dialog" class="modal-card" id="profile-form">
+      <div class="modal-header">
+        <div><p class="eyebrow">LOCAL IDENTITY FILE</p><h2>Profiles</h2></div>
+        <button type="button" class="icon-button" id="profile-close" aria-label="Close profile dialog">×</button>
+      </div>
+      <div id="profile-list" class="profile-list"></div>
+      <fieldset>
+        <legend>Create profile</legend>
+        <label>Display name<input id="new-profile-name" maxlength="24" required placeholder="Detective"></label>
+        <label>Avatar symbol<select id="new-profile-avatar"><option>◆</option><option>◈</option><option>▲</option><option>●</option><option>■</option><option>☾</option></select></label>
+        <label>Preferred era<select id="new-profile-era"><option value="Any">Any era</option><option>Golden Age</option><option>Silver Age</option><option>Bronze Age</option><option>Post-Crisis</option><option>New 52</option><option>Rebirth</option></select></label>
+        <label>Favorite medium<select id="new-profile-medium"><option value="Any">Any medium</option><option>Comics</option><option>Film</option><option>Animation</option><option>Games</option></select></label>
+      </fieldset>
+      <div class="modal-actions">
+        <button type="button" class="button secondary" id="import-profile-button">Import JSON</button>
+        <button type="submit" class="button primary">Create profile</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="quiz-dialog" class="quiz-dialog">
+    <div id="quiz-root"></div>
+  </dialog>
+
+  <dialog id="confirm-dialog" class="modal">
+    <form method="dialog" class="modal-card compact">
+      <h2 id="confirm-title">Confirm action</h2>
+      <p id="confirm-message"></p>
+      <div class="modal-actions">
+        <button value="cancel" class="button secondary">Cancel</button>
+        <button value="confirm" class="button danger">Confirm</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="file-import" accept="application/json" hidden>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

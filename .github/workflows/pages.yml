@@ -1,4 +1,4 @@
-name: Deploy static site to Pages
+name: Deploy Batman Knowledge Engine
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -21,14 +21,32 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
-      - name: Setup Pages
+
+      - name: Reconstruct application source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cat bundle.part* | base64 --decode > project.tar.gz
+          gzip -t project.tar.gz
+          tar -xzf project.tar.gz --strip-components=1 -C _site
+          test -f _site/index.html
+          test -f _site/js/app.js
+          test -f _site/data/categories.json
+          rm -f project.tar.gz
+          echo "Application files reconstructed successfully:"
+          find _site -type f | sort
+
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
+
+      - name: Upload reconstructed site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

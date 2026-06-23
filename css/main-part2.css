@@ -1,0 +1,21 @@
+.topbar { grid-column: 1 / -1; position: sticky; top: 0; z-index: 50; display: flex; align-items: center; gap: 1rem; height: var(--topbar-height); padding: 0 1.2rem; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg-elevated) 94%, transparent); backdrop-filter: blur(16px); }
+.brand { display: inline-flex; align-items: center; gap: .65rem; min-width: calc(var(--sidebar-width) - 1.2rem); text-decoration: none; letter-spacing: .08em; }
+.brand-mark { width: 42px; color: var(--amber); filter: drop-shadow(0 0 10px rgba(210,163,76,.2)); }
+.brand span { display: grid; line-height: 1; }
+.brand strong { font-size: .9rem; }
+.brand small { margin-top: .28rem; color: var(--muted); font-size: .57rem; letter-spacing: .18em; }
+.topbar-status { margin-left: auto; display: flex; align-items: center; gap: .7rem; color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; }
+.status-divider { width: 4px; height: 4px; border-radius: 50%; background: var(--amber); }
+.profile-chip { display: flex; align-items: center; gap: .65rem; padding: .4rem .65rem; border: 1px solid var(--line); border-radius: 99px; background: var(--panel); cursor: pointer; }
+.profile-chip:hover { border-color: var(--amber-dim); }
+.profile-avatar { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--panel-3); color: var(--amber-bright); font-weight: 900; }
+
+.sidebar { grid-row: 2; position: sticky; top: var(--topbar-height); height: calc(100vh - var(--topbar-height)); display: flex; flex-direction: column; border-right: 1px solid var(--line); background: color-mix(in srgb, var(--bg-elevated) 92%, transparent); overflow-y: auto; z-index: 40; }
+.sidebar nav { display: grid; gap: .3rem; padding: 1rem .75rem; }
+.sidebar nav a { display: flex; align-items: center; gap: .8rem; padding: .75rem .8rem; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--muted); text-decoration: none; font-size: .88rem; }
+.sidebar nav a span { width: 20px; color: var(--faint); text-align: center; }
+.sidebar nav a:hover { background: var(--panel); color: var(--text); }
+.sidebar nav a.active { border-color: var(--amber-dim); background: linear-gradient(90deg, rgba(210,163,76,.12), transparent); color: var(--cream); }
+.sidebar nav a.active span { color: var(--amber); }
+.sidebar-footer { margin-top: auto; padding: 1rem; border-top: 1px solid var(--line-soft); }
+.label-row { display: flex; justify-content: space-between; gap: .5rem; font-size: .72rem; color: var(--muted); }

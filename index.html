@@ -1,112 +1,76 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0e12">
-  <meta name="description" content="An adaptive Batman knowledge diagnostic, study archive, and mastery platform.">
   <title>The Batman Knowledge Engine</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="assets/icons/engine-mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    :root{color-scheme:dark;font-family:Inter,system-ui,sans-serif;background:#080a0d;color:#edf0eb}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),radial-gradient(circle at 70% 15%,rgba(210,163,76,.15),transparent 30%),#080a0d;background-size:38px 38px,38px 38px,auto,auto}.terminal{width:min(760px,100%);padding:clamp(24px,5vw,56px);border:1px solid #303a46;background:#0d1116;box-shadow:0 24px 70px rgba(0,0,0,.45)}.mark{width:92px;color:#d2a34c;margin-bottom:28px}.eyebrow{color:#d2a34c;font-size:12px;font-weight:800;letter-spacing:.2em}.terminal h1{margin:.5rem 0;font-size:clamp(2.2rem,8vw,5.2rem);line-height:.9;letter-spacing:-.055em}.terminal p{color:#9ca6ad;line-height:1.7;max-width:630px}.meter{height:8px;margin:30px 0 12px;background:#202832;overflow:hidden}.meter span{display:block;width:0;height:100%;background:linear-gradient(90deg,#83652d,#f0bf61);transition:width .25s ease}.status{display:flex;justify-content:space-between;gap:16px;color:#9ca6ad;font-size:13px}.error{margin-top:20px;padding:14px;border-left:3px solid #c95b58;background:#171d25;color:#ffd8d6;display:none}.retry{margin-top:16px;padding:11px 16px;border:1px solid #d2a34c;background:#d2a34c;color:#11100d;font-weight:900;cursor:pointer;display:none}@media(max-width:520px){.terminal{padding:24px}.status{display:grid}.terminal h1{font-size:3rem}}
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#app-main">Skip to main content</a>
-  <div class="app-shell">
-    <header class="topbar">
-      <button class="icon-button mobile-only" id="nav-toggle" aria-label="Open navigation" aria-controls="primary-nav" aria-expanded="false">☰</button>
-      <a class="brand" href="#/home" aria-label="Batman Knowledge Engine home">
-        <svg class="brand-mark" viewBox="0 0 64 32" role="img" aria-label="Abstract geometric night-wing mark">
-          <path d="M3 6l14 5 6-7 9 8 9-8 6 7 14-5-8 18-13-3-8 8-8-8-13 3z" fill="currentColor"/>
-        </svg>
-        <span><strong>BATMAN</strong><small>KNOWLEDGE ENGINE</small></span>
-      </a>
-      <div class="topbar-status" aria-label="Current assessment status">
-        <span id="top-level">Uninitiated</span>
-        <span class="status-divider" aria-hidden="true"></span>
-        <span id="top-confidence">Low confidence</span>
-      </div>
-      <button class="profile-chip" id="profile-menu-button" aria-haspopup="dialog" aria-controls="profile-dialog">
-        <span class="profile-avatar" id="profile-avatar">A</span>
-        <span id="profile-name">Local Profile</span>
-      </button>
-    </header>
+  <main class="terminal" aria-live="polite">
+    <svg class="mark" viewBox="0 0 128 64" aria-hidden="true"><path d="M5 12l28 11L46 5l18 20L82 5l13 18 28-11-16 38-27-7-16 16-16-16-27 7z" fill="currentColor"/></svg>
+    <div class="eyebrow">FORENSIC ARCHIVE INITIALIZATION</div>
+    <h1>BATMAN<br>KNOWLEDGE ENGINE</h1>
+    <p>The local diagnostic system is reconstructing its assessment engine, study archive, adaptive scoring model, and 150-question evidence bank.</p>
+    <div class="meter" role="progressbar" aria-label="Application installation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="fill"></span></div>
+    <div class="status"><strong id="message">Registering secure archive…</strong><span id="percent">0%</span></div>
+    <div class="error" id="error"></div>
+    <button class="retry" id="retry" type="button">Retry initialization</button>
+    <noscript><div class="error" style="display:block">JavaScript is required to run the assessment engine.</div></noscript>
+  </main>
+  <script>
+    const fill=document.querySelector('#fill');
+    const message=document.querySelector('#message');
+    const percent=document.querySelector('#percent');
+    const errorBox=document.querySelector('#error');
+    const retry=document.querySelector('#retry');
+    const meter=document.querySelector('[role="progressbar"]');
 
-    <aside class="sidebar" id="primary-nav" aria-label="Primary navigation">
-      <nav>
-        <a href="#/home" data-route="home"><span aria-hidden="true">⌂</span> Home</a>
-        <a href="#/diagnostic" data-route="diagnostic"><span aria-hidden="true">◎</span> Diagnostic</a>
-        <a href="#/knowledge-map" data-route="knowledge-map"><span aria-hidden="true">◇</span> Knowledge Map</a>
-        <a href="#/challenges" data-route="challenges"><span aria-hidden="true">⚔</span> Challenge Modes</a>
-        <a href="#/study" data-route="study"><span aria-hidden="true">▤</span> Study Archive</a>
-        <a href="#/review" data-route="review"><span aria-hidden="true">↻</span> Question Review</a>
-        <a href="#/progress" data-route="progress"><span aria-hidden="true">▥</span> Progress</a>
-        <a href="#/settings" data-route="settings"><span aria-hidden="true">⚙</span> Settings</a>
-        <a href="#/about" data-route="about"><span aria-hidden="true">i</span> About the Test</a>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="coverage-meter">
-          <div class="label-row"><span>Assessment coverage</span><strong id="coverage-label">0%</strong></div>
-          <div class="meter"><span id="coverage-fill" style="width:0%"></span></div>
-        </div>
-        <button class="text-button" id="install-button" hidden>Install offline app</button>
-      </div>
-    </aside>
+    function progress(text,value){
+      const amount=Math.max(0,Math.min(100,Number(value)||0));
+      message.textContent=text;
+      percent.textContent=`${Math.round(amount)}%`;
+      fill.style.width=`${amount}%`;
+      meter.setAttribute('aria-valuenow',Math.round(amount));
+    }
 
-    <main id="app-main" tabindex="-1">
-      <div id="route-view" aria-live="polite"></div>
-    </main>
+    async function initialize(){
+      errorBox.style.display='none';
+      retry.style.display='none';
+      if(!('serviceWorker' in navigator)) return fail('This browser cannot install the offline assessment archive. Use a current Chrome, Edge, Firefox, or Safari release.');
+      try{
+        progress('Registering secure archive…',2);
+        const registration=await navigator.serviceWorker.register('./bootstrap-sw.js',{scope:'./'});
+        await navigator.serviceWorker.ready;
+        navigator.serviceWorker.addEventListener('message',event=>{
+          const data=event.data||{};
+          if(data.type==='PROGRESS') progress(data.message,data.progress);
+          if(data.type==='ERROR') fail(data.message);
+          if(data.type==='READY'){
+            progress('Opening the Batcomputer…',100);
+            setTimeout(()=>location.replace('./?engine=ready'),350);
+          }
+        });
+        const worker=navigator.serviceWorker.controller||registration.active||registration.waiting;
+        if(!worker){
+          navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload(),{once:true});
+          return;
+        }
+        worker.postMessage({type:'MATERIALIZE'});
+      }catch(error){fail(error.message||String(error));}
+    }
 
-    <nav class="mobile-nav" aria-label="Mobile navigation">
-      <a href="#/home" data-route="home"><span aria-hidden="true">⌂</span><small>Home</small></a>
-      <a href="#/diagnostic" data-route="diagnostic"><span aria-hidden="true">◎</span><small>Test</small></a>
-      <a href="#/knowledge-map" data-route="knowledge-map"><span aria-hidden="true">◇</span><small>Map</small></a>
-      <a href="#/challenges" data-route="challenges"><span aria-hidden="true">⚔</span><small>Modes</small></a>
-      <a href="#/study" data-route="study"><span aria-hidden="true">▤</span><small>Study</small></a>
-    </nav>
-  </div>
-
-  <dialog id="profile-dialog" class="modal">
-    <form method="dialog" class="modal-card" id="profile-form">
-      <div class="modal-header">
-        <div><p class="eyebrow">LOCAL IDENTITY FILE</p><h2>Profiles</h2></div>
-        <button type="button" class="icon-button" id="profile-close" aria-label="Close profile dialog">×</button>
-      </div>
-      <div id="profile-list" class="profile-list"></div>
-      <fieldset>
-        <legend>Create profile</legend>
-        <label>Display name<input id="new-profile-name" maxlength="24" required placeholder="Detective"></label>
-        <label>Avatar symbol<select id="new-profile-avatar"><option>◆</option><option>◈</option><option>▲</option><option>●</option><option>■</option><option>☾</option></select></label>
-        <label>Preferred era<select id="new-profile-era"><option value="Any">Any era</option><option>Golden Age</option><option>Silver Age</option><option>Bronze Age</option><option>Post-Crisis</option><option>New 52</option><option>Rebirth</option></select></label>
-        <label>Favorite medium<select id="new-profile-medium"><option value="Any">Any medium</option><option>Comics</option><option>Film</option><option>Animation</option><option>Games</option></select></label>
-      </fieldset>
-      <div class="modal-actions">
-        <button type="button" class="button secondary" id="import-profile-button">Import JSON</button>
-        <button type="submit" class="button primary">Create profile</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="quiz-dialog" class="quiz-dialog">
-    <div id="quiz-root"></div>
-  </dialog>
-
-  <dialog id="confirm-dialog" class="modal">
-    <form method="dialog" class="modal-card compact">
-      <h2 id="confirm-title">Confirm action</h2>
-      <p id="confirm-message"></p>
-      <div class="modal-actions">
-        <button value="cancel" class="button secondary">Cancel</button>
-        <button value="confirm" class="button danger">Confirm</button>
-      </div>
-    </form>
-  </dialog>
-
-  <input type="file" id="file-import" accept="application/json" hidden>
-  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
-
-  <script type="module" src="js/app.js"></script>
+    function fail(text){
+      message.textContent='Initialization interrupted';
+      errorBox.textContent=text;
+      errorBox.style.display='block';
+      retry.style.display='inline-flex';
+    }
+    retry.addEventListener('click',initialize);
+    initialize();
+  </script>
 </body>
 </html>
